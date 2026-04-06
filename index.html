@@ -51,25 +51,24 @@
             box-sizing: border-box;
         }
         
+        /* CORREÇÃO DAS BARRAS DE ROLAGEM */
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
-            min-height: 100%;
-            /* Força apenas uma rolagem natural do navegador */
-            overflow-x: hidden; 
-            overflow-y: auto;
-        }
-
-        body { 
-            background: linear-gradient(135deg, #F8FAFC 0%, #EEF2FF 50%, #F0F9FF 100%); 
+            height: 100%;
+            overflow: hidden; /* Trava a rolagem do navegador/externa */
         }
 
         .main-scroll-container {
             width: 100%;
+            height: 100vh; /* Ocupa a tela inteira */
+            overflow-y: auto; /* Única barra de rolagem permitida */
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            background: linear-gradient(135deg, #F8FAFC 0%, #EEF2FF 50%, #F0F9FF 100%);
+            -webkit-overflow-scrolling: touch;
         }
 
         .bg-pattern {
@@ -388,8 +387,9 @@
             });
             document.querySelector('.progress-fill').style.width = `${(s / 3) * 100}%`;
             document.getElementById('progress-text').textContent = `Etapa ${s} de 3`;
-            // Garante que a página suba ao mudar de etapa sem gerar rolagem dupla
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Scrola o container interno para o topo ao trocar de passo
+            document.querySelector('.main-scroll-container').scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         async function sendToGoogleSheets(leadData, calcData) {
@@ -477,7 +477,6 @@
                 cardGap.className = "result-card bg-brand-blue rounded-2xl shadow-xl p-8 text-white text-center";
                 document.getElementById('congrats-cta').classList.remove('hidden');
                 
-                // Remove os painéis se a meta for atingida conforme solicitado
                 cardSuggestions.style.display = 'none';
                 cardTimeToGoal.style.display = 'none';
             }
