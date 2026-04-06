@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Aposentadoria | Planeje seu Futuro</title>
+    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1f0hSl0ncbkvj2UPghn2UXfF8ocwd1o-m">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-dark': '#001138',
+                        'brand-blue': '#0143A5',
+                        'brand-light': '#0086FF',
+                        'brand-gray': '#EBEBEB',
+                    },
+                    fontFamily: {
+                        'jakarta': ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg: #F8FAFC;
+            --fg: #001138;
+            --muted: #64748B;
+            --accent: #0086FF;
+            --accent-dark: #0143A5;
+            --card: #FFFFFF;
+            --border: #EBEBEB;
+        }
+
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        /* Travas de rolagem */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Remove rolagem dupla */
+        }
+
+        body { 
+            background: linear-gradient(135deg, #F8FAFC 0%, #EEF2FF 50%, #F0F9FF 100%); 
+        }
+
+        .main-scroll-container {
+            height: 100vh;
+            overflow-y: auto; /* Rolagem apenas aqui */
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bg-pattern {
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(0, 134, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(1, 67, 165, 0.03) 0%, transparent 50%);
+        }
+
+        .progress-fill { transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        .step-container {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+        }
+
+        .step-container.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+            position: relative;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-container.exit { opacity: 0; transform: translateX(-30px); }
+
+        .input-field {
+            transition: all 0.2s ease;
+            border: 2px solid var(--border);
+        }
+
+        .input-field:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(0, 134, 255, 0.1);
+            outline: none;
+        }
+
+        .profile-btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--border);
+            background: white;
+        }
+
+        .profile-btn:hover { transform: translateY(-3px); border-color: var(--accent); }
+
+        .profile-btn.selected {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, #FFFFFF 0%, #EBF5FF 100%);
+            box-shadow: 0 4px 12px rgba(0, 134, 255, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0143A5 0%, #0086FF 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 14px rgba(0, 134, 255, 0.25);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: scale(1.02);
+            filter: brightness(110%);
+        }
+
+        .result-card {
+            animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .highlight-number {
+            background: linear-gradient(135deg, #0086FF 0%, #0143A5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .float-medium {
+            animation: floatMedium 4s ease-in-out infinite;
+        }
+
+        @keyframes floatMedium {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hidden-card { display: none !important; }
+    </style>
+</head>
+<body class="bg-pattern">
+    <div class="main-scroll-container">
+        <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-brand-gray">
+            <div class="w-full px-6 py-4">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-3">
+                        <img src="https://lh3.googleusercontent.com/d/1vL2bA4BdKc328giEPA9wicNNVT3LU_1w" alt="Logo" class="h-8 w-auto object-contain">
+                        
+                        <div class="flex items-center gap-2 border-l border-brand-gray pl-4">
+                            <img src="https://lh3.googleusercontent.com/d/17tFE_2h7OZ8m9TXrci0cjLbQpwogjY6u" alt="Símbolo" class="h-6 w-auto">
+                            <span class="font-bold text-brand-dark text-lg hidden sm:block">Planejamento de Futuro</span>
+                        </div>
+                    </div>
+                    <span class="text-sm font-medium text-brand-light" id="progress-text">Etapa 1 de 3</span>
+                </div>
+                <div class="max-w-2xl mx-auto">
+                    <div class="h-2 bg-brand-gray rounded-full overflow-hidden">
+                        <div class="progress-fill h-full bg-gradient-to-r from-brand-blue to-brand-light rounded-full" style="width: 33%"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 flex items-center justify-center px-4 py-8">
+            <div class="w-full max-w-xl">
+                
+                <div id="step-1" class="step-container active">
+                    <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-brand-gray/50">
+                        <h1 class="text-2xl sm:text-3xl font-bold text-brand-dark mb-2">Vamos planejar sua aposentadoria</h1>
+                        <p class="text-slate-500 mb-8">Responda algumas perguntas rápidas para descobrir seu caminho financeiro</p>
+                        
+                        <form id="calculator-form" class="space-y-6">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-semibold text-brand-dark">Idade atual</label>
+                                    <input type="number" id="current-age" min="18" max="80" placeholder="Ex: 25" class="input-field w-full px-4 py-4 rounded-xl text-lg font-medium" required>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-semibold text-brand-dark">Idade alvo</label>
+                                    <input type="number" id="retirement-age" min="40" max="85" placeholder="Ex: 60" class="input-field w-full px-4 py-4 rounded-xl text-lg font-medium" required>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="block text-sm font-semibold text-brand-dark">Renda mensal desejada</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium">R$</span>
+                                    <input type="text" id="monthly-income" placeholder="10.000,00" class="input-field currency-input w-full pl-14 pr-4 py-4 rounded-xl text-lg font-medium" required>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="block text-sm font-semibold text-brand-dark">Patrimônio atual</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium">R$</span>
+                                    <input type="text" id="current-savings" placeholder="100.000,00" class="input-field currency-input w-full pl-14 pr-4 py-4 rounded-xl text-lg font-medium" required>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="block text-sm font-semibold text-brand-dark">Aporte mensal</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium">R$</span>
+                                    <input type="text" id="monthly-investment" placeholder="2.000,00" class="input-field currency-input w-full pl-14 pr-4 py-4 rounded-xl text-lg font-medium" required>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <label class="block text-sm font-semibold text-brand-dark">Perfil de Investidor</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <button type="button" class="profile-btn rounded-xl p-4 text-center" data-profile="conservative">
+                                        <div class="mb-2 flex justify-center text-emerald-600">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                                        </div>
+                                        <span class="block font-semibold text-brand-dark text-sm">Conservador</span>
+                                    </button>
+                                    <button type="button" class="profile-btn rounded-xl p-4 text-center" data-profile="balanced">
+                                        <div class="mb-2 flex justify-center text-brand-light">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+                                        </div>
+                                        <span class="block font-semibold text-brand-dark text-sm">Moderado</span>
+                                    </button>
+                                    <button type="button" class="profile-btn rounded-xl p-4 text-center" data-profile="aggressive">
+                                        <div class="mb-2 flex justify-center text-amber-500">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                                        </div>
+                                        <span class="block font-semibold text-brand-dark text-sm">Agressivo</span>
+                                    </button>
+                                </div>
+                                <input type="hidden" id="investment-profile" required>
+                            </div>
+
+                            <button type="submit" id="continue-btn" class="btn-primary w-full py-4 rounded-xl text-white font-semibold text-lg disabled:opacity-50" disabled>Continuar</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="step-2" class="step-container">
+                    <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-brand-gray/50">
+                        <div class="text-center mb-8">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-blue to-brand-light flex items-center justify-center mx-auto mb-4 float-medium">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl sm:text-3xl font-bold text-brand-dark mb-2">Veja seu resultado personalizado</h2>
+                            <p class="text-slate-500">Preencha seus dados para acessar o planejamento completo</p>
+                        </div>
+                        <form id="lead-form" class="space-y-5">
+                            <input type="text" id="user-name" placeholder="Seu nome completo" class="input-field w-full px-4 py-4 rounded-xl" required>
+                            <input type="email" id="user-email" placeholder="seu@email.com" class="input-field w-full px-4 py-4 rounded-xl" required>
+                            <input type="tel" id="user-phone" placeholder="(00) 00000-0000" class="input-field w-full px-4 py-4 rounded-xl" required>
+                            
+                            <button type="submit" id="submit-lead" class="btn-primary w-full py-4 rounded-xl text-white font-semibold text-lg">Ver meu resultado</button>
+                            
+                            <p class="text-center text-[10px] text-slate-400 mt-4 leading-tight">
+                                Seus dados estão seguros. Ao enviar, você concorda com comunicações e marketing.
+                            </p>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="step-3" class="step-container">
+                    <div class="space-y-6">
+                        <div class="result-card bg-white rounded-2xl shadow-xl p-6 border border-brand-gray/50">
+                            <span class="font-semibold text-brand-dark block mb-1">Patrimônio necessário</span>
+                            <p class="text-slate-500 text-sm mb-2">Para viver com <span id="result-income" class="font-semibold text-brand-dark">R$ 0</span>/mês</p>
+                            <p class="text-3xl sm:text-4xl font-bold highlight-number" id="result-needed">R$ 0</p>
+                        </div>
+
+                        <div class="result-card bg-white rounded-2xl shadow-xl p-6 border border-brand-gray/50">
+                            <span class="font-semibold text-brand-dark block mb-1">Sua projeção</span>
+                            <p class="text-slate-500 text-sm mb-2">No ritmo atual, você chegará com</p>
+                            <p class="text-3xl sm:text-4xl font-bold text-emerald-500" id="result-projected">R$ 0</p>
+                        </div>
+
+                        <div id="card-time-to-goal" class="result-card bg-white rounded-2xl shadow-xl p-6 border border-brand-gray/50">
+                            <span class="font-semibold text-brand-dark block mb-1">Tempo para a meta</span>
+                            <p class="text-slate-500 text-sm mb-2">Com o aporte atual, você alcançará o objetivo em</p>
+                            <p class="text-3xl sm:text-4xl font-bold text-indigo-600" id="result-years-to-goal">0 anos</p>
+                        </div>
+
+                        <div id="card-gap" class="result-card rounded-2xl shadow-xl p-6 border border-brand-gray/50 transition-colors">
+                            <span class="font-semibold block mb-1" id="gap-title">Diferença</span>
+                            <p class="text-sm mb-2" id="gap-subtitle">Faltam para atingir seu objetivo</p>
+                            <p class="text-3xl sm:text-4xl font-bold" id="result-gap">R$ 0</p>
+                            <div id="congrats-cta" class="mt-4 hidden">
+                                <a href="http://www.whatsapp.com.br" target="_blank" class="block text-center bg-white text-brand-blue py-3 rounded-xl font-bold hover:shadow-lg transition-all">Fale com um profissional</a>
+                            </div>
+                        </div>
+
+                        <div id="card-suggestions" class="result-card bg-gradient-to-br from-brand-dark to-brand-blue rounded-2xl shadow-xl p-6 text-white">
+                            <h3 class="text-lg font-semibold mb-4 text-center">Otimize seus resultados</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-white/10 rounded-xl p-4 text-center">
+                                    <p class="text-white/70 text-[10px] uppercase tracking-wider mb-1">Novo aporte</p>
+                                    <p class="text-lg font-bold" id="suggestion-increase">R$ 0</p>
+                                </div>
+                                <div class="bg-white/10 rounded-xl p-4 text-center">
+                                    <p class="text-white/70 text-[10px] uppercase tracking-wider mb-1">Adiar em</p>
+                                    <p class="text-lg font-bold" id="suggestion-delay">0 anos</p>
+                                </div>
+                            </div>
+                            <a href="http://www.whatsapp.com.br" target="_blank" class="mt-6 block text-center bg-brand-light text-white py-4 rounded-xl font-bold hover:brightness-110 transition-all">Planejar com especialista</a>
+                        </div>
+
+                        <div class="result-card text-center pb-8">
+                            <button onclick="resetCalculator()" class="px-8 py-3 rounded-xl border-2 border-brand-gray text-brand-dark font-semibold hover:bg-slate-50 transition-colors">Calcular novamente</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="max-w-2xl mx-auto px-4 py-8 text-center text-[10px] sm:text-xs text-slate-400 leading-relaxed">
+            <p>Simulação com fins educativos. Os valores são estimativas baseadas em projeções de rentabilidade real e podem variar conforme o mercado. Para um planejamento personalizado, consulte um assessor.</p>
+        </footer>
+    </div>
+
+    <script>
+        let calculationResults = null;
+        const PROFILE_RATES = { conservative: 0.03, balanced: 0.05, aggressive: 0.07 };
+        const WITHDRAWAL_RATE = 0.04;
+
+        function formatCurrency(v) { return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v); }
+        function parseCurrency(v) { return parseFloat(v.replace(/[^\d,]/g, '').replace(',', '.')) || 0; }
+
+        function applyCurrencyMask(i) {
+            let v = i.value.replace(/\D/g, '');
+            if (v) {
+                v = (parseInt(v) / 100).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                i.value = v;
+            }
+        }
+
+        function applyPhoneMask(i) {
+            let v = i.value.replace(/\D/g, '');
+            v = v.substring(0, 11);
+            if (v.length > 10) {
+                i.value = v.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+            } else if (v.length > 5) {
+                i.value = v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
+            } else if (v.length > 2) {
+                i.value = v.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+            } else if (v.length > 0) {
+                i.value = v.replace(/^(\d*)/, '($1');
+            }
+        }
+
+        function validateStep1() {
+            const currentAge = document.getElementById('current-age').value;
+            const retirementAge = document.getElementById('retirement-age').value;
+            const profile = document.getElementById('investment-profile').value;
+            const isValid = currentAge && retirementAge && profile && parseInt(retirementAge) > parseInt(currentAge);
+            document.getElementById('continue-btn').disabled = !isValid;
+        }
+
+        function showStep(s) {
+            document.querySelectorAll('.step-container').forEach((el, i) => {
+                el.classList.toggle('active', i + 1 === s);
+                el.classList.toggle('exit', i + 1 < s);
+            });
+            document.querySelector('.progress-fill').style.width = `${(s / 3) * 100}%`;
+            document.getElementById('progress-text').textContent = `Etapa ${s} de 3`;
+        }
+
+        async function sendToGoogleSheets(leadData, calcData) {
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnHPRCga4Df7P7KuLc55R4Z1a44Za74-SpQsetSX5MaserFoQD49lRUN2YLeFhQ5F_/exec'; 
+            
+            const payload = {
+                data_hora: new Date().toLocaleString('pt-BR'),
+                nome: leadData.name,
+                email: leadData.email,
+                telefone: leadData.phone,
+                idade_atual: document.getElementById('current-age').value,
+                idade_alvo: document.getElementById('retirement-age').value,
+                perfil: document.getElementById('investment-profile').value,
+                patrimonio_atual: document.getElementById('current-savings').value,
+                aporte_mensal: document.getElementById('monthly-investment').value,
+                renda_desejada: formatCurrency(calcData.monthlyIncome),
+                patrimonio_necessario: formatCurrency(calcData.requiredWealth),
+                projecao_final: formatCurrency(calcData.projectedWealth)
+            };
+
+            try {
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            } catch (e) {
+                console.error("Erro ao enviar dados", e);
+            }
+        }
+
+        function calculateRetirement() {
+            const currentAge = parseInt(document.getElementById('current-age').value);
+            const retirementAge = parseInt(document.getElementById('retirement-age').value);
+            const monthlyIncome = parseCurrency(document.getElementById('monthly-income').value);
+            const currentSavings = parseCurrency(document.getElementById('current-savings').value);
+            const monthlyInvestment = parseCurrency(document.getElementById('monthly-investment').value);
+            const profile = document.getElementById('investment-profile').value;
+
+            const months = (retirementAge - currentAge) * 12;
+            const mRate = Math.pow(1 + PROFILE_RATES[profile], 1/12) - 1;
+            const requiredWealth = (monthlyIncome * 12) / WITHDRAWAL_RATE;
+
+            const fvp = currentSavings * Math.pow(1 + mRate, months);
+            const fvc = monthlyInvestment * ((Math.pow(1 + mRate, months) - 1) / mRate);
+            const projectedWealth = fvp + fvc;
+
+            let tMonths = 0;
+            let simW = currentSavings;
+            while(simW < requiredWealth && tMonths < 1200) {
+                tMonths++;
+                simW = (currentSavings * Math.pow(1 + mRate, tMonths)) + (monthlyInvestment * ((Math.pow(1 + mRate, tMonths) - 1) / mRate));
+            }
+
+            return {
+                monthlyIncome, requiredWealth, projectedWealth,
+                wealthGap: Math.max(0, requiredWealth - projectedWealth),
+                requiredMonthlyInvestment: (requiredWealth - (currentSavings * Math.pow(1 + mRate, months))) * (mRate / (Math.pow(1 + mRate, months) - 1)),
+                yearsToGoal: Math.ceil(tMonths / 12),
+                extraYears: Math.ceil(Math.max(0, tMonths - months) / 12)
+            };
+        }
+
+        function updateResultsUI(r) {
+            document.getElementById('result-income').textContent = formatCurrency(r.monthlyIncome);
+            document.getElementById('result-needed').textContent = formatCurrency(r.requiredWealth);
+            document.getElementById('result-projected').textContent = formatCurrency(r.projectedWealth);
+            
+            const cardGap = document.getElementById('card-gap');
+            if (r.wealthGap > 0) {
+                document.getElementById('result-gap').textContent = formatCurrency(r.wealthGap);
+                document.getElementById('result-years-to-goal').textContent = r.yearsToGoal + " anos";
+                document.getElementById('suggestion-increase').textContent = formatCurrency(r.requiredMonthlyInvestment);
+                document.getElementById('suggestion-delay').textContent = r.extraYears + " anos";
+            } else {
+                document.getElementById('gap-title').textContent = "PARABÉNS!";
+                document.getElementById('result-gap').textContent = "Meta Atingida";
+                cardGap.className = "result-card bg-brand-blue rounded-2xl shadow-xl p-8 text-white text-center";
+                document.getElementById('congrats-cta').classList.remove('hidden');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.currency-input').forEach(i => i.addEventListener('input', () => applyCurrencyMask(i)));
+            const phoneInput = document.getElementById('user-phone');
+            phoneInput.addEventListener('input', () => applyPhoneMask(phoneInput));
+
+            document.querySelectorAll('.profile-btn').forEach(btn => btn.addEventListener('click', () => {
+                document.querySelectorAll('.profile-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                document.getElementById('investment-profile').value = btn.dataset.profile;
+                validateStep1();
+            }));
+
+            document.getElementById('calculator-form').addEventListener('submit', (e) => { 
+                e.preventDefault(); 
+                calculationResults = calculateRetirement(); 
+                showStep(2); 
+            });
+
+            document.getElementById('lead-form').addEventListener('submit', (e) => { 
+                e.preventDefault(); 
+                const leadData = {
+                    name: document.getElementById('user-name').value,
+                    email: document.getElementById('user-email').value,
+                    phone: document.getElementById('user-phone').value
+                };
+                sendToGoogleSheets(leadData, calculationResults);
+                updateResultsUI(calculationResults); 
+                showStep(3); 
+            });
+        });
+
+        function resetCalculator() { window.location.reload(); }
+    </script>
+</body>
+</html>
