@@ -51,19 +51,18 @@
             box-sizing: border-box;
         }
         
-        /* CORREÇÃO DAS BARRAS DE ROLAGEM */
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Trava a rolagem do navegador/externa */
+            overflow: hidden; 
         }
 
         .main-scroll-container {
             width: 100%;
-            height: 100vh; /* Ocupa a tela inteira */
-            overflow-y: auto; /* Única barra de rolagem permitida */
+            height: 100vh;
+            overflow-y: auto;
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
@@ -316,12 +315,13 @@
 
                         <div id="card-suggestions" class="result-card bg-gradient-to-br from-brand-dark to-brand-blue rounded-2xl shadow-xl p-6 text-white">
                             <h3 class="text-lg font-semibold mb-4 text-center">Otimize seus resultados</h3>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="bg-white/10 rounded-xl p-4 text-center">
+                            <div class="flex flex-col items-center gap-4">
+                                <div class="bg-white/10 rounded-xl p-4 text-center w-full">
                                     <p class="text-white/70 text-[10px] uppercase tracking-wider mb-1">Novo aporte</p>
                                     <p class="text-lg font-bold" id="suggestion-increase">R$ 0</p>
                                 </div>
-                                <div class="bg-white/10 rounded-xl p-4 text-center">
+                                <div class="text-white/50 font-bold text-sm italic">OU</div>
+                                <div class="bg-white/10 rounded-xl p-4 text-center w-full">
                                     <p class="text-white/70 text-[10px] uppercase tracking-wider mb-1">Adiar em</p>
                                     <p class="text-lg font-bold" id="suggestion-delay">0 anos</p>
                                 </div>
@@ -387,8 +387,6 @@
             });
             document.querySelector('.progress-fill').style.width = `${(s / 3) * 100}%`;
             document.getElementById('progress-text').textContent = `Etapa ${s} de 3`;
-            
-            // Scrola o container interno para o topo ao trocar de passo
             document.querySelector('.main-scroll-container').scrollTo({ top: 0, behavior: 'smooth' });
         }
 
