@@ -6,6 +6,14 @@
     <title>Calculadora de Aposentadoria | Planeje seu Futuro</title>
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1f0hSl0ncbkvj2UPghn2UXfF8ocwd1o-m">
     
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "w7hww9zvl2");
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,13 +48,12 @@
 
         * { font-family: 'Plus Jakarta Sans', sans-serif; }
         
-        /* Travas de rolagem */
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Remove rolagem dupla */
+            overflow: hidden;
         }
 
         body { 
@@ -55,7 +62,7 @@
 
         .main-scroll-container {
             height: 100vh;
-            overflow-y: auto; /* Rolagem apenas aqui */
+            overflow-y: auto;
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
@@ -163,17 +170,15 @@
             <div class="w-full px-6 py-4">
                 <div class="flex items-center justify-between mb-3">
                     <div class="flex items-center gap-3">
-                        <img src="https://lh3.googleusercontent.com/d/1vL2bA4BdKc328giEPA9wicNNVT3LU_1w" alt="Logo" class="h-8 w-auto object-contain">
-                        
+                        <img src="https://lh3.googleusercontent.com/u/0/d/17tFE_2h7OZ8m9TXrci0cjLbQpwogjY6u" alt="Logo" class="h-8 w-auto object-contain">
                         <div class="flex items-center gap-2 border-l border-brand-gray pl-4">
-                            <img src="https://lh3.googleusercontent.com/d/17tFE_2h7OZ8m9TXrci0cjLbQpwogjY6u" alt="Símbolo" class="h-6 w-auto">
-                            <span class="font-bold text-brand-dark text-lg hidden sm:block">Planejamento de Futuro</span>
+                            <span class="font-bold text-brand-dark text-lg hidden sm:block">🚀 Planejamento Futuro</span>
                         </div>
                     </div>
                     <span class="text-sm font-medium text-brand-light" id="progress-text">Etapa 1 de 3</span>
                 </div>
-                <div class="max-w-2xl mx-auto">
-                    <div class="h-2 bg-brand-gray rounded-full overflow-hidden">
+                <div class="max-w-2xl mx-auto flex items-center gap-4">
+                    <div class="flex-1 h-2 bg-brand-gray rounded-full overflow-hidden">
                         <div class="progress-fill h-full bg-gradient-to-r from-brand-blue to-brand-light rounded-full" style="width: 33%"></div>
                     </div>
                 </div>
@@ -182,7 +187,6 @@
 
         <main class="flex-1 flex items-center justify-center px-4 py-8">
             <div class="w-full max-w-xl">
-                
                 <div id="step-1" class="step-container active">
                     <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-brand-gray/50">
                         <h1 class="text-2xl sm:text-3xl font-bold text-brand-dark mb-2">Vamos planejar sua aposentadoria</h1>
