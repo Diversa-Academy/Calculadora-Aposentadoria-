@@ -55,9 +55,10 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            min-height: 100vh;
-            overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
+            min-height: 100%;
+            /* Força apenas uma rolagem natural do navegador */
+            overflow-x: hidden; 
+            overflow-y: auto;
         }
 
         body { 
@@ -66,10 +67,9 @@
 
         .main-scroll-container {
             width: 100%;
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            position: relative;
+            min-height: 100vh;
         }
 
         .bg-pattern {
@@ -88,6 +88,7 @@
             position: absolute;
             width: 100%;
             left: 0;
+            top: 0;
         }
 
         .step-container.active {
@@ -109,6 +110,7 @@
             transition: all 0.2s ease;
             border: 2px solid var(--border);
             -webkit-appearance: none;
+            border-radius: 0.75rem;
         }
 
         .input-field:focus {
@@ -135,11 +137,6 @@
             background: linear-gradient(135deg, #0143A5 0%, #0086FF 100%);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 14px rgba(0, 134, 255, 0.25);
-        }
-
-        .btn-primary:hover:not(:disabled) {
-            transform: scale(1.02);
-            filter: brightness(110%);
         }
 
         .result-card {
@@ -191,8 +188,8 @@
             </div>
         </header>
 
-        <main class="flex-1 flex items-center justify-center px-4 py-8">
-            <div class="w-full max-w-xl">
+        <main class="flex-1 flex flex-col items-center justify-start px-4 py-6 sm:py-12">
+            <div class="w-full max-w-xl relative">
                 <div id="step-1" class="step-container active">
                     <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-brand-gray/50">
                         <h1 class="text-2xl sm:text-3xl font-bold text-brand-dark mb-2">Vamos planejar sua aposentadoria</h1>
@@ -202,11 +199,11 @@
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="space-y-2">
                                     <label class="block text-sm font-semibold text-brand-dark">Idade atual</label>
-                                    <input type="number" id="current-age" min="18" max="80" placeholder="Ex: 25" class="input-field w-full px-4 py-4 rounded-xl text-lg font-medium" required>
+                                    <input type="number" id="current-age" min="18" max="80" placeholder="Ex: 25" class="input-field w-full px-4 py-4 text-lg font-medium" required>
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-semibold text-brand-dark">Idade alvo</label>
-                                    <input type="number" id="retirement-age" min="40" max="85" placeholder="Ex: 60" class="input-field w-full px-4 py-4 rounded-xl text-lg font-medium" required>
+                                    <input type="number" id="retirement-age" min="40" max="85" placeholder="Ex: 60" class="input-field w-full px-4 py-4 text-lg font-medium" required>
                                 </div>
                             </div>
 
@@ -214,7 +211,7 @@
                                 <label class="block text-sm font-semibold text-brand-dark">Renda mensal desejada</label>
                                 <div class="relative">
                                     <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium">R$</span>
-                                    <input type="text" id="monthly-income" placeholder="10.000,00" class="input-field currency-input w-full pl-14 pr-4 py-4 rounded-xl text-lg font-medium" required>
+                                    <input type="text" id="monthly-income" placeholder="10.000,00" class="input-field currency-input w-full pl-14 pr-4 py-4 text-lg font-medium" required>
                                 </div>
                             </div>
 
@@ -222,7 +219,7 @@
                                 <label class="block text-sm font-semibold text-brand-dark">Patrimônio atual</label>
                                 <div class="relative">
                                     <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium">R$</span>
-                                    <input type="text" id="current-savings" placeholder="100.000,00" class="input-field currency-input w-full pl-14 pr-4 py-4 rounded-xl text-lg font-medium" required>
+                                    <input type="text" id="current-savings" placeholder="100.000,00" class="input-field currency-input w-full pl-14 pr-4 py-4 text-lg font-medium" required>
                                 </div>
                             </div>
 
@@ -230,7 +227,7 @@
                                 <label class="block text-sm font-semibold text-brand-dark">Aporte mensal</label>
                                 <div class="relative">
                                     <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium">R$</span>
-                                    <input type="text" id="monthly-investment" placeholder="2.000,00" class="input-field currency-input w-full pl-14 pr-4 py-4 rounded-xl text-lg font-medium" required>
+                                    <input type="text" id="monthly-investment" placeholder="2.000,00" class="input-field currency-input w-full pl-14 pr-4 py-4 text-lg font-medium" required>
                                 </div>
                             </div>
 
@@ -276,9 +273,9 @@
                             <p class="text-slate-500">Preencha seus dados para acessar o planejamento completo</p>
                         </div>
                         <form id="lead-form" class="space-y-5">
-                            <input type="text" id="user-name" placeholder="Seu nome completo" class="input-field w-full px-4 py-4 rounded-xl" required>
-                            <input type="email" id="user-email" placeholder="seu@email.com" class="input-field w-full px-4 py-4 rounded-xl" required>
-                            <input type="tel" id="user-phone" placeholder="(00) 00000-0000" class="input-field w-full px-4 py-4 rounded-xl" required>
+                            <input type="text" id="user-name" placeholder="Seu nome completo" class="input-field w-full px-4 py-4" required>
+                            <input type="email" id="user-email" placeholder="seu@email.com" class="input-field w-full px-4 py-4" required>
+                            <input type="tel" id="user-phone" placeholder="(00) 00000-0000" class="input-field w-full px-4 py-4" required>
                             
                             <button type="submit" id="submit-lead" class="btn-primary w-full py-4 rounded-xl text-white font-semibold text-lg">Ver meu resultado</button>
                             
@@ -290,7 +287,7 @@
                 </div>
 
                 <div id="step-3" class="step-container">
-                    <div class="space-y-6">
+                    <div class="space-y-6 pb-12">
                         <div class="result-card bg-white rounded-2xl shadow-xl p-6 border border-brand-gray/50">
                             <span class="font-semibold text-brand-dark block mb-1">Patrimônio necessário</span>
                             <p class="text-slate-500 text-sm mb-2">Para viver com <span id="result-income" class="font-semibold text-brand-dark">R$ 0</span>/mês</p>
@@ -333,7 +330,7 @@
                             <a href="https://api.whatsapp.com/send?phone=554433466200&text=Ol%C3%A1!%20Tudo%20bem%3F%0A%0AAcabei%20de%20fazer%20o%20planejamento%20futuro%20na%20calculadora%20de%20aposentadoria%20e%20gostaria%20de%20ajuda%20com%20ele!" target="_blank" class="mt-6 block text-center bg-brand-light text-white py-4 rounded-xl font-bold hover:brightness-110 transition-all">Planejar com especialista</a>
                         </div>
 
-                        <div class="result-card text-center pb-12">
+                        <div class="result-card text-center pb-8">
                             <button onclick="resetCalculator()" class="px-8 py-3 rounded-xl border-2 border-brand-gray text-brand-dark font-semibold hover:bg-slate-50 transition-colors">Calcular novamente</button>
                         </div>
                     </div>
@@ -341,7 +338,7 @@
             </div>
         </main>
 
-        <footer class="max-w-2xl mx-auto px-4 py-8 text-center text-[10px] sm:text-xs text-slate-400 leading-relaxed">
+        <footer class="w-full max-w-2xl mx-auto px-4 py-8 text-center text-[10px] sm:text-xs text-slate-400 leading-relaxed">
             <p>Simulação com fins educativos. Os valores são estimativas baseadas em projeções de rentabilidade real e podem variar conforme o mercado. Para um planejamento personalizado, consulte um assessor.</p>
         </footer>
     </div>
@@ -391,6 +388,7 @@
             });
             document.querySelector('.progress-fill').style.width = `${(s / 3) * 100}%`;
             document.getElementById('progress-text').textContent = `Etapa ${s} de 3`;
+            // Garante que a página suba ao mudar de etapa sem gerar rolagem dupla
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -471,18 +469,17 @@
                 document.getElementById('result-years-to-goal').textContent = r.yearsToGoal + " anos";
                 document.getElementById('suggestion-increase').textContent = formatCurrency(r.requiredMonthlyInvestment);
                 document.getElementById('suggestion-delay').textContent = r.extraYears + " anos";
-                
-                cardSuggestions.classList.remove('hidden');
-                cardTimeToGoal.classList.remove('hidden');
+                cardSuggestions.style.display = 'block';
+                cardTimeToGoal.style.display = 'block';
             } else {
                 document.getElementById('gap-title').textContent = "PARABÉNS!";
                 document.getElementById('result-gap').textContent = "Meta Atingida";
                 cardGap.className = "result-card bg-brand-blue rounded-2xl shadow-xl p-8 text-white text-center";
                 document.getElementById('congrats-cta').classList.remove('hidden');
                 
-                // Esconde sugestões se a meta foi atingida
-                cardSuggestions.classList.add('hidden');
-                cardTimeToGoal.classList.add('hidden');
+                // Remove os painéis se a meta for atingida conforme solicitado
+                cardSuggestions.style.display = 'none';
+                cardTimeToGoal.style.display = 'none';
             }
         }
 
