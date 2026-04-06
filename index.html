@@ -52,8 +52,8 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100%;
-            overflow: hidden;
+            min-height: 100%;
+            /* Removido overflow: hidden para permitir scroll no mobile */
         }
 
         body { 
@@ -61,7 +61,7 @@
         }
 
         .main-scroll-container {
-            height: 100vh;
+            min-height: 100vh;
             overflow-y: auto;
             overflow-x: hidden;
             display: flex;
@@ -456,16 +456,20 @@
             document.getElementById('result-projected').textContent = formatCurrency(r.projectedWealth);
             
             const cardGap = document.getElementById('card-gap');
+            
+            // Atualiza os dados de sugestão sempre
+            document.getElementById('result-years-to-goal').textContent = r.yearsToGoal + " anos";
+            document.getElementById('suggestion-increase').textContent = formatCurrency(r.requiredMonthlyInvestment);
+            document.getElementById('suggestion-delay').textContent = r.extraYears + " anos";
+
             if (r.wealthGap > 0) {
                 document.getElementById('result-gap').textContent = formatCurrency(r.wealthGap);
-                document.getElementById('result-years-to-goal').textContent = r.yearsToGoal + " anos";
-                document.getElementById('suggestion-increase').textContent = formatCurrency(r.requiredMonthlyInvestment);
-                document.getElementById('suggestion-delay').textContent = r.extraYears + " anos";
             } else {
                 document.getElementById('gap-title').textContent = "PARABÉNS!";
                 document.getElementById('result-gap').textContent = "Meta Atingida";
                 cardGap.className = "result-card bg-brand-blue rounded-2xl shadow-xl p-8 text-white text-center";
                 document.getElementById('congrats-cta').classList.remove('hidden');
+                // Mantém a box de sugestões visível conforme solicitado
             }
         }
 
