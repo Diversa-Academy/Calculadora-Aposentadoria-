@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Calculadora de Aposentadoria | Planeje seu Futuro</title>
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1f0hSl0ncbkvj2UPghn2UXfF8ocwd1o-m">
     
@@ -46,14 +46,18 @@
             --border: #EBEBEB;
         }
 
-        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        * { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            box-sizing: border-box;
+        }
         
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
-            min-height: 100%;
-            /* Removido overflow: hidden para permitir scroll no mobile */
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
         }
 
         body { 
@@ -61,11 +65,11 @@
         }
 
         .main-scroll-container {
+            width: 100%;
             min-height: 100vh;
-            overflow-y: auto;
-            overflow-x: hidden;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .bg-pattern {
@@ -83,6 +87,7 @@
             pointer-events: none;
             position: absolute;
             width: 100%;
+            left: 0;
         }
 
         .step-container.active {
@@ -103,6 +108,7 @@
         .input-field {
             transition: all 0.2s ease;
             border: 2px solid var(--border);
+            -webkit-appearance: none;
         }
 
         .input-field:focus {
@@ -327,7 +333,7 @@
                             <a href="https://api.whatsapp.com/send?phone=554433466200&text=Ol%C3%A1!%20Tudo%20bem%3F%0A%0AAcabei%20de%20fazer%20o%20planejamento%20futuro%20na%20calculadora%20de%20aposentadoria%20e%20gostaria%20de%20ajuda%20com%20ele!" target="_blank" class="mt-6 block text-center bg-brand-light text-white py-4 rounded-xl font-bold hover:brightness-110 transition-all">Planejar com especialista</a>
                         </div>
 
-                        <div class="result-card text-center pb-8">
+                        <div class="result-card text-center pb-12">
                             <button onclick="resetCalculator()" class="px-8 py-3 rounded-xl border-2 border-brand-gray text-brand-dark font-semibold hover:bg-slate-50 transition-colors">Calcular novamente</button>
                         </div>
                     </div>
@@ -385,6 +391,7 @@
             });
             document.querySelector('.progress-fill').style.width = `${(s / 3) * 100}%`;
             document.getElementById('progress-text').textContent = `Etapa ${s} de 3`;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         async function sendToGoogleSheets(leadData, calcData) {
@@ -456,20 +463,26 @@
             document.getElementById('result-projected').textContent = formatCurrency(r.projectedWealth);
             
             const cardGap = document.getElementById('card-gap');
-            
-            // Atualiza os dados de sugestão sempre
-            document.getElementById('result-years-to-goal').textContent = r.yearsToGoal + " anos";
-            document.getElementById('suggestion-increase').textContent = formatCurrency(r.requiredMonthlyInvestment);
-            document.getElementById('suggestion-delay').textContent = r.extraYears + " anos";
+            const cardSuggestions = document.getElementById('card-suggestions');
+            const cardTimeToGoal = document.getElementById('card-time-to-goal');
 
             if (r.wealthGap > 0) {
                 document.getElementById('result-gap').textContent = formatCurrency(r.wealthGap);
+                document.getElementById('result-years-to-goal').textContent = r.yearsToGoal + " anos";
+                document.getElementById('suggestion-increase').textContent = formatCurrency(r.requiredMonthlyInvestment);
+                document.getElementById('suggestion-delay').textContent = r.extraYears + " anos";
+                
+                cardSuggestions.classList.remove('hidden');
+                cardTimeToGoal.classList.remove('hidden');
             } else {
                 document.getElementById('gap-title').textContent = "PARABÉNS!";
                 document.getElementById('result-gap').textContent = "Meta Atingida";
                 cardGap.className = "result-card bg-brand-blue rounded-2xl shadow-xl p-8 text-white text-center";
                 document.getElementById('congrats-cta').classList.remove('hidden');
-                // Mantém a box de sugestões visível conforme solicitado
+                
+                // Esconde sugestões se a meta foi atingida
+                cardSuggestions.classList.add('hidden');
+                cardTimeToGoal.classList.add('hidden');
             }
         }
 
