@@ -1,647 +1,631 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Calculadora de Independência Financeira | Diagnóstico Premium</title>
-    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1f0hSl0ncbkvj2UPghn2UXfF8ocwd1o-m">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Calculadora de Independência Financeira | Diagnóstico Premium</title>
+    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1f0hSl0ncbkvj2UPghn2UXfF8ocwd1o-m">
 
-    
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "w7hww9zvl2");
-    </script>
+    
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "w7hww9zvl2");
+    </script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        display: ['Outfit', 'sans-serif'],
-                    },
-                    colors: {
-                        navy: { 900: '#0A1128', 800: '#162A5A', 700: '#1F3A7A' },
-                        electric: { 500: '#0066FF', 400: '#3385FF' }
-                    },
-                    boxShadow: {
-                        'glass': '0 8px 32px 0 rgba(10, 17, 40, 0.08)',
-                        'glow': '0 0 20px rgba(0, 102, 255, 0.4)',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background-color: #F8FAFC;
-            background-image: 
-                radial-gradient(at 0% 0%, hsla(217,100%,95%,1) 0, transparent 50%), 
-                radial-gradient(at 100% 100%, hsla(217,100%,92%,1) 0, transparent 50%);
-            background-attachment: fixed;
-            -webkit-font-smoothing: antialiased;
-            -webkit-tap-highlight-color: transparent;
-        }
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: { 900: '#0A1128', 800: '#162A5A', 700: '#1F3A7A' },
+                        electric: { 500: '#0066FF', 400: '#3385FF' }
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(10, 17, 40, 0.08)',
+                        'glow': '0 0 20px rgba(0, 102, 255, 0.4)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F8FAFC;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(217,100%,95%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 100%, hsla(217,100%,92%,1) 0, transparent 50%);
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 4px 24px -4px rgba(10, 17, 40, 0.06);
-        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 24px -4px rgba(10, 17, 40, 0.06);
+        }
 
-        .step-container {
-            display: none;
-            opacity: 0;
-            transform: translateY(15px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
+        .step-container {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
 
-        .step-container.active {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-            animation: slideUpFade 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-        }
+        .step-container.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: slideUpFade 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
 
-        @keyframes slideUpFade {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* Ajuste fonte de input para 16px no mínimo evita zoom automático em iPhones */
-        .input-premium {
-            background: #F1F5F9;
-            border: 1.5px solid transparent;
-            transition: all 0.3s ease;
-            font-size: 16px !important; 
-        }
+        /* Ajuste fonte de input para 16px no mínimo evita zoom automático em iPhones */
+        .input-premium {
+            background: #F1F5F9;
+            border: 1.5px solid transparent;
+            transition: all 0.3s ease;
+            font-size: 16px !important; 
+        }
 
-        .input-premium:focus {
-            background: #FFFFFF;
-            border-color: #0066FF;
-            box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.1);
-            outline: none;
-        }
+        .input-premium:focus {
+            background: #FFFFFF;
+            border-color: #0066FF;
+            box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.1);
+            outline: none;
+        }
 
-        .profile-btn {
-            border: 2px solid #E2E8F0;
-            transition: all 0.2s ease;
-            touch-action: manipulation;
-        }
+        .profile-btn {
+            border: 2px solid #E2E8F0;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+        }
 
-        .profile-btn[data-selected="true"] {
-            border-color: #0066FF;
-            background: #F0F7FF;
-        }
+        .profile-btn[data-selected="true"] {
+            border-color: #0066FF;
+            background: #F0F7FF;
+        }
 
-        .profile-btn[data-selected="true"] .icon-wrapper {
-            background: #0066FF;
-            color: white;
-        }
+        .profile-btn[data-selected="true"] .icon-wrapper {
+            background: #0066FF;
+            color: white;
+        }
 
-        .btn-gradient {
-            background: linear-gradient(135deg, #0066FF 0%, #162A5A 100%);
-            transition: transform 0.2s, box-shadow 0.2s;
-            touch-action: manipulation;
-        }
-        
-        .btn-gradient:active { transform: scale(0.98); }
-        .btn-gradient:hover:not(:disabled) { box-shadow: 0 8px 20px -6px rgba(0, 102, 255, 0.4); }
-        .btn-gradient:disabled { background: #CBD5E1; cursor: not-allowed; }
+        .btn-gradient {
+            background: linear-gradient(135deg, #0066FF 0%, #162A5A 100%);
+            transition: transform 0.2s, box-shadow 0.2s;
+            touch-action: manipulation;
+        }
+        
+        .btn-gradient:active { transform: scale(0.98); }
+        .btn-gradient:hover:not(:disabled) { box-shadow: 0 8px 20px -6px rgba(0, 102, 255, 0.4); }
+        .btn-gradient:disabled { background: #CBD5E1; cursor: not-allowed; }
 
-        .blurred-bg {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23f8fafc"/><path d="M0 100 Q 25 50 50 80 T 100 20 L 100 100 Z" fill="%23e2e8f0" opacity="0.5"/></svg>');
-            background-size: cover;
-            filter: blur(12px);
-            z-index: -1;
-            opacity: 0.7;
-        }
+        .blurred-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23f8fafc"/><path d="M0 100 Q 25 50 50 80 T 100 20 L 100 100 Z" fill="%23e2e8f0" opacity="0.5"/></svg>');
+            background-size: cover;
+            filter: blur(12px);
+            z-index: -1;
+            opacity: 0.7;
+        }
 
-        .chart-container {
-            position: relative;
-            height: 250px;
-            width: 100%;
-        }
-        
-        @media (min-width: 768px) {
-            .chart-container { height: 300px; }
-        }
-    </style>
+        .chart-container {
+            position: relative;
+            height: 250px;
+            width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            .chart-container { height: 300px; }
+        }
+    </style>
 
-    <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1480606026777440');
-    fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1480606026777440&ev=PageView&noscript=1"
-    /></noscript>
-
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '983037014075261');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=983037014075261&ev=PageView&noscript=1"
-/></noscript>
-    </head>
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1480606026777440');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1480606026777440&ev=PageView&noscript=1"
+    /></noscript>
+    </head>
 <body class="text-slate-800 min-h-screen flex flex-col">
 
-    <header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-        <div class="max-w-3xl mx-auto px-5 py-3.5">
-            <div class="flex justify-between items-center mb-2.5">
-                <div class="flex items-center gap-3">
-                    <img src="https://lh3.googleusercontent.com/u/0/d/17tFE_2h7OZ8m9TXrci0cjLbQpwogjY6u" alt="Logo" class="h-7 md:h-8 w-auto object-contain">
-                </div>
-                <span class="text-[10px] md:text-xs font-bold text-electric-500 uppercase tracking-wider bg-blue-50 px-2.5 py-1 rounded-md" id="progress-text">Passo 1 de 3</span>
-            </div>
-            <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                <div id="progress-bar" class="bg-electric-500 h-1.5 rounded-full transition-all duration-700 ease-in-out" style="width: 33%"></div>
-            </div>
-        </div>
-    </header>
+    <header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-3xl mx-auto px-5 py-3.5">
+            <div class="flex justify-between items-center mb-2.5">
+                <div class="flex items-center gap-3">
+                    <img src="https://lh3.googleusercontent.com/u/0/d/17tFE_2h7OZ8m9TXrci0cjLbQpwogjY6u" alt="Logo" class="h-7 md:h-8 w-auto object-contain">
+                </div>
+                <span class="text-[10px] md:text-xs font-bold text-electric-500 uppercase tracking-wider bg-blue-50 px-2.5 py-1 rounded-md" id="progress-text">Passo 1 de 3</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                <div id="progress-bar" class="bg-electric-500 h-1.5 rounded-full transition-all duration-700 ease-in-out" style="width: 33%"></div>
+            </div>
+        </div>
+    </header>
 
-    <main class="flex-grow pt-24 pb-8 px-4 flex justify-center items-start">
-        <div class="w-full max-w-2xl">
-            
-            <div id="step-1" class="step-container active">
-                <div class="text-center mb-6 md:mb-8">
-                    <h1 class="font-display text-2xl md:text-4xl font-bold text-navy-900 mb-2">Seu mapa para a<br/><span class="text-electric-500">Independência Financeira</span></h1>
-                    <p class="text-slate-500 text-sm md:text-base px-2">Preencha os dados abaixo para projetar seu futuro.</p>
-                </div>
+    <main class="flex-grow pt-24 pb-8 px-4 flex justify-center items-start">
+        <div class="w-full max-w-2xl">
+            
+            <div id="step-1" class="step-container active">
+                <div class="text-center mb-6 md:mb-8">
+                    <h1 class="font-display text-2xl md:text-4xl font-bold text-navy-900 mb-2">Seu mapa para a<br/><span class="text-electric-500">Independência Financeira</span></h1>
+                    <p class="text-slate-500 text-sm md:text-base px-2">Preencha os dados abaixo para projetar seu futuro.</p>
+                </div>
 
-                <div class="glass-card rounded-3xl p-5 md:p-8">
-                    <form id="calc-form" class="space-y-5">
-                        <div class="grid grid-cols-2 gap-3 md:gap-4">
-                            <div>
-                                <label class="block text-[13px] font-bold text-navy-900 mb-1.5">Idade atual</label>
-                                <input type="number" id="current-age" min="18" max="80" placeholder="Ex: 30" class="input-premium w-full rounded-xl px-4 py-3.5 font-medium" inputmode="numeric" required>
-                            </div>
-                            <div>
-                                <label class="block text-[13px] font-bold text-navy-900 mb-1.5">Aposentar aos</label>
-                                <input type="number" id="target-age" min="40" max="90" placeholder="Ex: 65" class="input-premium w-full rounded-xl px-4 py-3.5 font-medium" inputmode="numeric" required>
-                            </div>
-                        </div>
+                <div class="glass-card rounded-3xl p-5 md:p-8">
+                    <form id="calc-form" class="space-y-5">
+                        <div class="grid grid-cols-2 gap-3 md:gap-4">
+                            <div>
+                                <label class="block text-[13px] font-bold text-navy-900 mb-1.5">Idade atual</label>
+                                <input type="number" id="current-age" min="18" max="80" placeholder="Ex: 30" class="input-premium w-full rounded-xl px-4 py-3.5 font-medium" inputmode="numeric" required>
+                            </div>
+                            <div>
+                                <label class="block text-[13px] font-bold text-navy-900 mb-1.5">Aposentar aos</label>
+                                <input type="number" id="target-age" min="40" max="90" placeholder="Ex: 65" class="input-premium w-full rounded-xl px-4 py-3.5 font-medium" inputmode="numeric" required>
+                            </div>
+                        </div>
 
-                        <div class="space-y-3.5">
-                            <div>
-                                <label class="block text-[13px] font-bold text-navy-900 mb-1.5">Renda mensal desejada</label>
-                                <div class="relative">
-                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">R$</span>
-                                    <input type="text" id="desired-income" placeholder="15.000,00" class="currency-input input-premium w-full rounded-xl pl-11 pr-4 py-3.5 font-medium" inputmode="numeric" required>
-                                </div>
-                            </div>
+                        <div class="space-y-3.5">
+                            <div>
+                                <label class="block text-[13px] font-bold text-navy-900 mb-1.5">Renda mensal desejada</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">R$</span>
+                                    <input type="text" id="desired-income" placeholder="15.000,00" class="currency-input input-premium w-full rounded-xl pl-11 pr-4 py-3.5 font-medium" inputmode="numeric" required>
+                                </div>
+                            </div>
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                                <div>
-                                    <label class="block text-[13px] font-bold text-navy-900 mb-1.5">Patrimônio investido hoje</label>
-                                    <div class="relative">
-                                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">R$</span>
-                                        <input type="text" id="current-wealth" placeholder="50.000,00" class="currency-input input-premium w-full rounded-xl pl-11 pr-4 py-3.5 font-medium" inputmode="numeric" required>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-[13px] font-bold text-navy-900 mb-1.5">Aporte mensal (poupança)</label>
-                                    <div class="relative">
-                                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">R$</span>
-                                        <input type="text" id="monthly-contribution" placeholder="2.000,00" class="currency-input input-premium w-full rounded-xl pl-11 pr-4 py-3.5 font-medium" inputmode="numeric" required>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                                <div>
+                                    <label class="block text-[13px] font-bold text-navy-900 mb-1.5">Patrimônio investido hoje</label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">R$</span>
+                                        <input type="text" id="current-wealth" placeholder="50.000,00" class="currency-input input-premium w-full rounded-xl pl-11 pr-4 py-3.5 font-medium" inputmode="numeric" required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-[13px] font-bold text-navy-900 mb-1.5">Aporte mensal (poupança)</label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">R$</span>
+                                        <input type="text" id="monthly-contribution" placeholder="2.000,00" class="currency-input input-premium w-full rounded-xl pl-11 pr-4 py-3.5 font-medium" inputmode="numeric" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                        <div>
-                            <label class="block text-[13px] font-bold text-navy-900 mb-2">Como você investe hoje?</label>
-                            <div class="grid grid-cols-3 gap-2 md:gap-3">
-                                <button type="button" class="profile-btn bg-white rounded-2xl p-3 text-center group" data-val="conservative" data-selected="false">
-                                    <div class="icon-wrapper w-8 h-8 md:w-10 md:h-10 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-500 mb-2 transition-colors">
-                                        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                                    </div>
-                                    <span class="block text-[11px] md:text-xs font-bold text-navy-900">Conservador</span>
-                                </button>
-                                <button type="button" class="profile-btn bg-white rounded-2xl p-3 text-center group" data-val="moderate" data-selected="false">
-                                    <div class="icon-wrapper w-8 h-8 md:w-10 md:h-10 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-500 mb-2 transition-colors">
-                                        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-                                    </div>
-                                    <span class="block text-[11px] md:text-xs font-bold text-navy-900">Moderado</span>
-                                </button>
-                                <button type="button" class="profile-btn bg-white rounded-2xl p-3 text-center group" data-val="aggressive" data-selected="false">
-                                    <div class="icon-wrapper w-8 h-8 md:w-10 md:h-10 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-500 mb-2 transition-colors">
-                                        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                                    </div>
-                                    <span class="block text-[11px] md:text-xs font-bold text-navy-900">Arrojado</span>
-                                </button>
-                            </div>
-                            <input type="hidden" id="profile-input" required>
-                        </div>
+                        <div>
+                            <label class="block text-[13px] font-bold text-navy-900 mb-2">Como você investe hoje?</label>
+                            <div class="grid grid-cols-3 gap-2 md:gap-3">
+                                <button type="button" class="profile-btn bg-white rounded-2xl p-3 text-center group" data-val="conservative" data-selected="false">
+                                    <div class="icon-wrapper w-8 h-8 md:w-10 md:h-10 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-500 mb-2 transition-colors">
+                                        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                                    </div>
+                                    <span class="block text-[11px] md:text-xs font-bold text-navy-900">Conservador</span>
+                                </button>
+                                <button type="button" class="profile-btn bg-white rounded-2xl p-3 text-center group" data-val="moderate" data-selected="false">
+                                    <div class="icon-wrapper w-8 h-8 md:w-10 md:h-10 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-500 mb-2 transition-colors">
+                                        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                                    </div>
+                                    <span class="block text-[11px] md:text-xs font-bold text-navy-900">Moderado</span>
+                                </button>
+                                <button type="button" class="profile-btn bg-white rounded-2xl p-3 text-center group" data-val="aggressive" data-selected="false">
+                                    <div class="icon-wrapper w-8 h-8 md:w-10 md:h-10 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-500 mb-2 transition-colors">
+                                        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                    </div>
+                                    <span class="block text-[11px] md:text-xs font-bold text-navy-900">Arrojado</span>
+                                </button>
+                            </div>
+                            <input type="hidden" id="profile-input" required>
+                        </div>
 
-                        <button type="submit" id="btn-calc" class="btn-gradient w-full py-4 rounded-xl text-white font-bold text-base md:text-lg mt-2" disabled>
-                            Gerar Projeção Financeira
-                        </button>
-                    </form>
-                </div>
-            </div>
+                        <button type="submit" id="btn-calc" class="btn-gradient w-full py-4 rounded-xl text-white font-bold text-base md:text-lg mt-2" disabled>
+                            Gerar Projeção Financeira
+                        </button>
+                    </form>
+                </div>
+            </div>
 
-            <div id="step-2" class="step-container relative overflow-hidden rounded-3xl p-1">
-                <div class="blurred-bg"></div>
-                <div class="glass-card rounded-[23px] p-6 md:p-10 relative z-10 text-center border border-white/60">
-                    <div class="w-14 h-14 md:w-16 md:h-16 bg-electric-500 rounded-2xl mx-auto flex items-center justify-center mb-5 shadow-glow">
-                        <svg class="w-7 h-7 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                    </div>
-                    <h2 class="font-display text-2xl md:text-3xl font-bold text-navy-900 mb-2">Seu diagnóstico está pronto!</h2>
-                    <p class="text-slate-600 text-sm md:text-base mb-6 px-2">Para ver seu gráfico de juros compostos e descobrir se atingirá a meta, informe onde enviar o relatório.</p>
+            <div id="step-2" class="step-container relative overflow-hidden rounded-3xl p-1">
+                <div class="blurred-bg"></div>
+                <div class="glass-card rounded-[23px] p-6 md:p-10 relative z-10 text-center border border-white/60">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-electric-500 rounded-2xl mx-auto flex items-center justify-center mb-5 shadow-glow">
+                        <svg class="w-7 h-7 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                    </div>
+                    <h2 class="font-display text-2xl md:text-3xl font-bold text-navy-900 mb-2">Seu diagnóstico está pronto!</h2>
+                    <p class="text-slate-600 text-sm md:text-base mb-6 px-2">Para ver seu gráfico de juros compostos e descobrir se atingirá a meta, informe onde enviar o relatório.</p>
 
-                    <form id="lead-form" class="space-y-3 md:space-y-4 max-w-sm mx-auto text-left">
-                        <input type="text" id="lead-name" placeholder="Seu nome completo" class="input-premium w-full rounded-xl px-4 py-3.5 font-medium" required>
-                        <input type="email" id="lead-email" placeholder="seu.melhor@email.com" class="input-premium w-full rounded-xl px-4 py-3.5 font-medium" inputmode="email" required>
-                        <input type="tel" id="lead-phone" placeholder="(00) 00000-0000" class="input-premium w-full rounded-xl px-4 py-3.5 font-medium" inputmode="tel" required>
-                        
-                        <button type="submit" class="btn-gradient w-full py-4 rounded-xl text-white font-bold text-base md:text-lg mt-2 shadow-lg">
-                            Desbloquear Meu Resultado
-                        </button>
-                        
-                        <p class="text-center text-[11px] text-slate-400 mt-4 leading-tight">
-                            Seus dados estão seguros. Ao enviar, você concorda com comunicações e marketing.
-                        </p>
-                    </form>
-                </div>
-            </div>
+                    <form id="lead-form" class="space-y-3 md:space-y-4 max-w-sm mx-auto text-left">
+                        <input type="text" id="lead-name" placeholder="Seu nome completo" class="input-premium w-full rounded-xl px-4 py-3.5 font-medium" required>
+                        <input type="email" id="lead-email" placeholder="seu.melhor@email.com" class="input-premium w-full rounded-xl px-4 py-3.5 font-medium" inputmode="email" required>
+                        <input type="tel" id="lead-phone" placeholder="(00) 00000-0000" class="input-premium w-full rounded-xl px-4 py-3.5 font-medium" inputmode="tel" required>
+                        
+                        <button type="submit" class="btn-gradient w-full py-4 rounded-xl text-white font-bold text-base md:text-lg mt-2 shadow-lg">
+                            Desbloquear Meu Resultado
+                        </button>
+                        
+                        <p class="text-center text-[11px] text-slate-400 mt-4 leading-tight">
+                            Seus dados estão seguros. Ao enviar, você concorda com comunicações e marketing.
+                        </p>
+                    </form>
+                </div>
+            </div>
 
-            <div id="step-3" class="step-container">
-                <div class="mb-6 text-center">
-                    <h2 class="font-display text-2xl md:text-3xl font-bold text-navy-900">Seu Relatório de Independência</h2>
-                </div>
+            <div id="step-3" class="step-container">
+                <div class="mb-6 text-center">
+                    <h2 class="font-display text-2xl md:text-3xl font-bold text-navy-900">Seu Relatório de Independência</h2>
+                </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-5">
-                    <div class="glass-card rounded-2xl p-5 border-l-4 border-electric-500">
-                        <span class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-wider">Patrimônio Necessário</span>
-                        <p class="text-2xl md:text-3xl font-bold text-navy-900 mt-1" id="res-target">R$ 0</p>
-                        <p class="text-[11px] md:text-xs text-slate-500 mt-1.5">Para gerar <span id="res-income-label" class="font-bold text-navy-900">R$ 0</span>/mês para sempre</p>
-                    </div>
-                    <div class="glass-card rounded-2xl p-5 border-l-4 border-navy-800">
-                        <span class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-wider">Projeção na Idade Alvo</span>
-                        <p class="text-2xl md:text-3xl font-bold text-navy-900 mt-1" id="res-projected">R$ 0</p>
-                        <p class="text-[11px] md:text-xs text-slate-500 mt-1.5">Acumulado até os <span id="res-age-label" class="font-bold text-navy-900">0</span> anos</p>
-                    </div>
-                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-5">
+                    <div class="glass-card rounded-2xl p-5 border-l-4 border-electric-500">
+                        <span class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-wider">Patrimônio Necessário</span>
+                        <p class="text-2xl md:text-3xl font-bold text-navy-900 mt-1" id="res-target">R$ 0</p>
+                        <p class="text-[11px] md:text-xs text-slate-500 mt-1.5">Para gerar <span id="res-income-label" class="font-bold text-navy-900">R$ 0</span>/mês para sempre</p>
+                    </div>
+                    <div class="glass-card rounded-2xl p-5 border-l-4 border-navy-800">
+                        <span class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-wider">Projeção na Idade Alvo</span>
+                        <p class="text-2xl md:text-3xl font-bold text-navy-900 mt-1" id="res-projected">R$ 0</p>
+                        <p class="text-[11px] md:text-xs text-slate-500 mt-1.5">Acumulado até os <span id="res-age-label" class="font-bold text-navy-900">0</span> anos</p>
+                    </div>
+                </div>
 
-                <div class="glass-card rounded-3xl p-4 md:p-6 mb-5">
-                    <h3 class="font-bold text-navy-900 mb-4 px-2">Evolução do seu Patrimônio</h3>
-                    <div class="chart-container">
-                        <canvas id="wealthChart"></canvas>
-                    </div>
-                </div>
+                <div class="glass-card rounded-3xl p-4 md:p-6 mb-5">
+                    <h3 class="font-bold text-navy-900 mb-4 px-2">Evolução do seu Patrimônio</h3>
+                    <div class="chart-container">
+                        <canvas id="wealthChart"></canvas>
+                    </div>
+                </div>
 
-                <div id="action-box" class="rounded-3xl p-6 md:p-8 mb-8 text-white relative overflow-hidden shadow-lg transition-all">
-                    </div>
+                <div id="action-box" class="rounded-3xl p-6 md:p-8 mb-8 text-white relative overflow-hidden shadow-lg transition-all">
+                    </div>
 
-                <div class="glass-card rounded-3xl p-5 md:p-8 mb-6 border border-slate-200/60">
-                    <h3 class="text-lg md:text-xl font-bold text-navy-900 mb-4 flex items-center gap-2">
-                        <div class="w-1.5 h-6 bg-electric-500 rounded-full"></div>
-                        Entenda a Ciência por trás do Cálculo
-                    </h3>
-                    
-                    <p class="text-sm md:text-base text-slate-600 mb-6">Planejar a aposentadoria exige precisão. Por isso, nossa calculadora utiliza o <strong>Estudo Trinity</strong>, o padrão ouro das finanças mundiais realizado pela Universidade Trinity (EUA).</p>
-                    
-                    <div class="space-y-4">
-                        <div class="bg-white/60 rounded-2xl p-5 border border-slate-100 shadow-sm">
-                            <h4 class="font-bold text-electric-500 flex items-center gap-2 mb-2">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                                A Regra dos 4% (Taxa de Saque Seguro)
-                            </h4>
-                            <p class="text-sm text-slate-600">O estudo comprovou que para o seu dinheiro durar a vida toda sem perder o poder de compra, você só deve sacar cerca de <strong>4% ao ano</strong> do seu patrimônio total.</p>
-                        </div>
+                <div class="glass-card rounded-3xl p-5 md:p-8 mb-6 border border-slate-200/60">
+                    <h3 class="text-lg md:text-xl font-bold text-navy-900 mb-4 flex items-center gap-2">
+                        <div class="w-1.5 h-6 bg-electric-500 rounded-full"></div>
+                        Entenda a Ciência por trás do Cálculo
+                    </h3>
+                    
+                    <p class="text-sm md:text-base text-slate-600 mb-6">Planejar a aposentadoria exige precisão. Por isso, nossa calculadora utiliza o <strong>Estudo Trinity</strong>, o padrão ouro das finanças mundiais realizado pela Universidade Trinity (EUA).</p>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white/60 rounded-2xl p-5 border border-slate-100 shadow-sm">
+                            <h4 class="font-bold text-electric-500 flex items-center gap-2 mb-2">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                                A Regra dos 4% (Taxa de Saque Seguro)
+                            </h4>
+                            <p class="text-sm text-slate-600">O estudo comprovou que para o seu dinheiro durar a vida toda sem perder o poder de compra, você só deve sacar cerca de <strong>4% ao ano</strong> do seu patrimônio total.</p>
+                        </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="bg-white/60 rounded-2xl p-5 border border-slate-100 shadow-sm">
-                                <h4 class="font-bold text-navy-900 mb-2">Por que não sacar mais?</h4>
-                                <p class="text-sm text-slate-600">Se você sacar 10% (todo o rendimento), a <strong>Inflação</strong> corroerá seu patrimônio. Em pouco tempo, seu dinheiro não comprará nem metade do que compra hoje.</p>
-                            </div>
-                            <div class="bg-white/60 rounded-2xl p-5 border border-slate-100 shadow-sm">
-                                <h4 class="font-bold text-navy-900 mb-2">O Cálculo Real</h4>
-                                <p class="text-sm text-slate-600">Calculamos seu patrimônio para que os 4% paguem sua renda, enquanto o restante do lucro fica investido para repor a inflação e manter seu padrão de vida para sempre.</p>
-                            </div>
-                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-white/60 rounded-2xl p-5 border border-slate-100 shadow-sm">
+                                <h4 class="font-bold text-navy-900 mb-2">Por que não sacar mais?</h4>
+                                <p class="text-sm text-slate-600">Se você sacar 10% (todo o rendimento), a <strong>Inflação</strong> corroerá seu patrimônio. Em pouco tempo, seu dinheiro não comprará nem metade do que compra hoje.</p>
+                            </div>
+                            <div class="bg-white/60 rounded-2xl p-5 border border-slate-100 shadow-sm">
+                                <h4 class="font-bold text-navy-900 mb-2">O Cálculo Real</h4>
+                                <p class="text-sm text-slate-600">Calculamos seu patrimônio para que os 4% paguem sua renda, enquanto o restante do lucro fica investido para repor a inflação e manter seu padrão de vida para sempre.</p>
+                            </div>
+                        </div>
 
-                        <div class="pt-4 mt-2 border-t border-slate-200">
-                            <p class="italic font-medium text-slate-500 text-sm text-center px-4">
-                                "A aposentadoria é decisiva: você não terá uma segunda chance para acumular este capital. O planejamento antecipado é a única forma de garantir segurança absoluta."
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <button onclick="location.reload()" class="block w-full text-center text-sm font-bold text-slate-400 hover:text-navy-900 transition-colors py-4">
-                    Refazer Simulação
-                </button>
-            </div>
+                        <div class="pt-4 mt-2 border-t border-slate-200">
+                            <p class="italic font-medium text-slate-500 text-sm text-center px-4">
+                                "A aposentadoria é decisiva: você não terá uma segunda chance para acumular este capital. O planejamento antecipado é a única forma de garantir segurança absoluta."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="location.reload()" class="block w-full text-center text-sm font-bold text-slate-400 hover:text-navy-900 transition-colors py-4">
+                    Refazer Simulação
+                </button>
+            </div>
 
-        </div>
-    </main>
+        </div>
+    </main>
 
-    <footer class="w-full bg-transparent px-4 py-6 text-center">
-        <div class="max-w-3xl mx-auto">
-            <p class="text-[10px] text-slate-400 leading-tight opacity-80">
-                Simulação com fins educativos. Os valores são estimativas baseadas em projeções de rentabilidade real (já descontada a inflação) e podem variar conforme o mercado e suas decisões de investimento. Não constitui recomendação de investimento. Para um planejamento personalizado, consulte um assessor de investimentos.
-            </p>
-        </div>
-    </footer>
+    <footer class="w-full bg-transparent px-4 py-6 text-center">
+        <div class="max-w-3xl mx-auto">
+            <p class="text-[10px] text-slate-400 leading-tight opacity-80">
+                Simulação com fins educativos. Os valores são estimativas baseadas em projeções de rentabilidade real (já descontada a inflação) e podem variar conforme o mercado e suas decisões de investimento. Não constitui recomendação de investimento. Para um planejamento personalizado, consulte um assessor de investimentos.
+            </p>
+        </div>
+    </footer>
 
-    <script>
-        // --- CONSTANTES ---
-        const WITHDRAWAL_RATE = 0.04;
-        const RETURN_RATES = { conservative: 0.04, moderate: 0.06, aggressive: 0.08 };
-        let calcData = {};
-        let myChart = null;
+    <script>
+        // --- CONSTANTES ---
+        const WITHDRAWAL_RATE = 0.04;
+        const RETURN_RATES = { conservative: 0.04, moderate: 0.06, aggressive: 0.08 };
+        let calcData = {};
+        let myChart = null;
 
-        // --- FORMATAÇÃO & MÁSCARAS ---
-        const formatBRL = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
-        const parseBRL = (str) => parseFloat(str.replace(/\./g, '').replace(',', '.')) || 0;
+        // --- FORMATAÇÃO & MÁSCARAS ---
+        const formatBRL = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
+        const parseBRL = (str) => parseFloat(str.replace(/\./g, '').replace(',', '.')) || 0;
 
-        function applyCurrencyMask(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value === '') { e.target.value = ''; return; }
-            value = (parseInt(value) / 100).toFixed(2);
-            e.target.value = value.replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-            validateStep1();
-        }
+        function applyCurrencyMask(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value === '') { e.target.value = ''; return; }
+            value = (parseInt(value) / 100).toFixed(2);
+            e.target.value = value.replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            validateStep1();
+        }
 
-        function applyPhoneMask(e) {
-            let v = e.target.value.replace(/\D/g, '');
-            v = v.replace(/^(\d{2})(\d)/g, '($1) $2');
-            v = v.replace(/(\d)(\d{4})$/, '$1-$2');
-            e.target.value = v.substring(0, 15);
-        }
+        function applyPhoneMask(e) {
+            let v = e.target.value.replace(/\D/g, '');
+            v = v.replace(/^(\d{2})(\d)/g, '($1) $2');
+            v = v.replace(/(\d)(\d{4})$/, '$1-$2');
+            e.target.value = v.substring(0, 15);
+        }
 
-        // --- NAVEGAÇÃO ---
-        function goToStep(step) {
-            document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
-            const targetEl = document.getElementById(`step-${step}`);
-            targetEl.classList.add('active');
-            
-            const progress = step === 1 ? 33 : step === 2 ? 66 : 100;
-            document.getElementById('progress-bar').style.width = `${progress}%`;
-            document.getElementById('progress-text').innerText = `Passo ${step} de 3`;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        // --- NAVEGAÇÃO ---
+        function goToStep(step) {
+            document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+            const targetEl = document.getElementById(`step-${step}`);
+            targetEl.classList.add('active');
+            
+            const progress = step === 1 ? 33 : step === 2 ? 66 : 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+            document.getElementById('progress-text').innerText = `Passo ${step} de 3`;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-        function validateStep1() {
-            const age = document.getElementById('current-age').value;
-            const target = document.getElementById('target-age').value;
-            const inc = document.getElementById('desired-income').value;
-            const prof = document.getElementById('profile-input').value;
-            const isValid = age && target && inc && prof && (parseInt(target) > parseInt(age));
-            document.getElementById('btn-calc').disabled = !isValid;
-        }
+        function validateStep1() {
+            const age = document.getElementById('current-age').value;
+            const target = document.getElementById('target-age').value;
+            const inc = document.getElementById('desired-income').value;
+            const prof = document.getElementById('profile-input').value;
+            const isValid = age && target && inc && prof && (parseInt(target) > parseInt(age));
+            document.getElementById('btn-calc').disabled = !isValid;
+        }
 
-        // --- LÓGICA FINANCEIRA ---
-        function performCalculations() {
-            const currentAge = parseInt(document.getElementById('current-age').value);
-            const targetAge = parseInt(document.getElementById('target-age').value);
-            const monthlyIncome = parseBRL(document.getElementById('desired-income').value);
-            const currentWealth = parseBRL(document.getElementById('current-wealth').value);
-            const monthlyCont = parseBRL(document.getElementById('monthly-contribution').value);
-            const profile = document.getElementById('profile-input').value;
+        // --- LÓGICA FINANCEIRA ---
+        function performCalculations() {
+            const currentAge = parseInt(document.getElementById('current-age').value);
+            const targetAge = parseInt(document.getElementById('target-age').value);
+            const monthlyIncome = parseBRL(document.getElementById('desired-income').value);
+            const currentWealth = parseBRL(document.getElementById('current-wealth').value);
+            const monthlyCont = parseBRL(document.getElementById('monthly-contribution').value);
+            const profile = document.getElementById('profile-input').value;
 
-            const yearsToInvest = targetAge - currentAge;
-            const monthsToInvest = yearsToInvest * 12;
-            const annualRate = RETURN_RATES[profile];
-            const monthlyRate = Math.pow(1 + annualRate, 1/12) - 1;
+            const yearsToInvest = targetAge - currentAge;
+            const monthsToInvest = yearsToInvest * 12;
+            const annualRate = RETURN_RATES[profile];
+            const monthlyRate = Math.pow(1 + annualRate, 1/12) - 1;
 
-            const requiredWealth = (monthlyIncome * 12) / WITHDRAWAL_RATE;
-            const futureValue = (currentWealth * Math.pow(1 + monthlyRate, monthsToInvest)) + 
-                                (monthlyCont * ((Math.pow(1 + monthlyRate, monthsToInvest) - 1) / monthlyRate));
+            const requiredWealth = (monthlyIncome * 12) / WITHDRAWAL_RATE;
+            const futureValue = (currentWealth * Math.pow(1 + monthlyRate, monthsToInvest)) + 
+                                (monthlyCont * ((Math.pow(1 + monthlyRate, monthsToInvest) - 1) / monthlyRate));
 
-            const gap = requiredWealth - futureValue;
-            const requiredPMT = (requiredWealth - (currentWealth * Math.pow(1 + monthlyRate, monthsToInvest))) * (monthlyRate / (Math.pow(1 + monthlyRate, monthsToInvest) - 1));
-            const extraContributionNeeded = Math.max(0, requiredPMT - monthlyCont);
+            const gap = requiredWealth - futureValue;
+            const requiredPMT = (requiredWealth - (currentWealth * Math.pow(1 + monthlyRate, monthsToInvest))) * (monthlyRate / (Math.pow(1 + monthlyRate, monthsToInvest) - 1));
+            const extraContributionNeeded = Math.max(0, requiredPMT - monthlyCont);
 
-            let extraYearsNeeded = 0;
-            if (gap > 0) {
-                if (currentWealth === 0 && monthlyCont === 0) {
-                    extraYearsNeeded = "∞";
-                } else {
-                    const num = (requiredWealth * monthlyRate) + monthlyCont;
-                    const den = (currentWealth * monthlyRate) + monthlyCont;
-                    const n_months = Math.log(num / den) / Math.log(1 + monthlyRate);
-                    extraYearsNeeded = Math.max(0, Math.ceil(n_months / 12) - yearsToInvest);
-                }
-            }
+            let extraYearsNeeded = 0;
+            if (gap > 0) {
+                if (currentWealth === 0 && monthlyCont === 0) {
+                    extraYearsNeeded = "∞";
+                } else {
+                    const num = (requiredWealth * monthlyRate) + monthlyCont;
+                    const den = (currentWealth * monthlyRate) + monthlyCont;
+                    const n_months = Math.log(num / den) / Math.log(1 + monthlyRate);
+                    extraYearsNeeded = Math.max(0, Math.ceil(n_months / 12) - yearsToInvest);
+                }
+            }
 
-            // Gerar dados otimizados para o gráfico (evita travamentos no mobile reduzindo pontos se prazo for longo)
-            let chartLabels = [];
-            let chartDataProj = [];
-            let chartDataTarget = [];
-            
-            // Plota anualmente em vez de mensalmente para performance
-            for(let i = 0; i <= yearsToInvest; i++) {
-                chartLabels.push(currentAge + i);
-                let w = (currentWealth * Math.pow(1 + annualRate, i)) + 
-                        ((monthlyCont * 12) * ((Math.pow(1 + annualRate, i) - 1) / annualRate)); 
-                chartDataProj.push(w);
-                chartDataTarget.push(requiredWealth);
-            }
+            // Gerar dados otimizados para o gráfico (evita travamentos no mobile reduzindo pontos se prazo for longo)
+            let chartLabels = [];
+            let chartDataProj = [];
+            let chartDataTarget = [];
+            
+            // Plota anualmente em vez de mensalmente para performance
+            for(let i = 0; i <= yearsToInvest; i++) {
+                chartLabels.push(currentAge + i);
+                let w = (currentWealth * Math.pow(1 + annualRate, i)) + 
+                        ((monthlyCont * 12) * ((Math.pow(1 + annualRate, i) - 1) / annualRate)); 
+                chartDataProj.push(w);
+                chartDataTarget.push(requiredWealth);
+            }
 
-            calcData = { currentAge, targetAge, monthlyIncome, requiredWealth, futureValue, gap, extraContributionNeeded, extraYearsNeeded, chartLabels, chartDataProj, chartDataTarget };
-        }
+            calcData = { currentAge, targetAge, monthlyIncome, requiredWealth, futureValue, gap, extraContributionNeeded, extraYearsNeeded, chartLabels, chartDataProj, chartDataTarget };
+        }
 
-        // --- RENDERIZAÇÃO DE RESULTADOS & GRÁFICO ---
-        function renderResults() {
-            document.getElementById('res-target').innerText = formatBRL(calcData.requiredWealth);
-            document.getElementById('res-income-label').innerText = formatBRL(calcData.monthlyIncome);
-            document.getElementById('res-projected').innerText = formatBRL(calcData.futureValue);
-            document.getElementById('res-age-label').innerText = calcData.targetAge;
+        // --- RENDERIZAÇÃO DE RESULTADOS & GRÁFICO ---
+        function renderResults() {
+            document.getElementById('res-target').innerText = formatBRL(calcData.requiredWealth);
+            document.getElementById('res-income-label').innerText = formatBRL(calcData.monthlyIncome);
+            document.getElementById('res-projected').innerText = formatBRL(calcData.futureValue);
+            document.getElementById('res-age-label').innerText = calcData.targetAge;
 
-            const actionBox = document.getElementById('action-box');
-            const whatsappUrl = "https://api.whatsapp.com/send?phone=554433466200&text=Ol%C3%A1!%20Fiz%20minha%20simula%C3%A7%C3%A3o%20e%20quero%20montar%20meu%20plano%20de%20a%C3%A7%C3%A3o!";
-            
-            if(calcData.gap <= 0) {
-                actionBox.className = "rounded-3xl p-6 md:p-8 mb-8 text-white relative overflow-hidden shadow-xl bg-gradient-to-br from-emerald-500 to-teal-700 shadow-emerald-500/20";
-                actionBox.innerHTML = `
-                    <div class="relative z-10 w-full flex flex-col items-center text-center">
-                        <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/20 mb-3 text-white">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
-                        </div>
-                        <h3 class="text-xl md:text-2xl font-bold mb-2">Trajetória de Sucesso!</h3>
-                        <p class="text-emerald-50 text-sm md:text-base mb-6">Mantendo sua disciplina atual, você ultrapassará sua meta. Seu futuro financeiro está sólido e muito bem encaminhado.</p>
-                        <a href="${whatsappUrl}" target="_blank" class="w-full bg-white text-emerald-700 py-4 rounded-xl font-bold text-base md:text-lg shadow-lg hover:bg-emerald-50 transition-colors">
-                            Otimizar Plano com Especialista
-                        </a>
-                    </div>
-                `;
-            } else {
-                let textExtraYears = calcData.extraYearsNeeded === "∞" ? "Sem aporte, impossível estimar" : "+ " + calcData.extraYearsNeeded + " anos";
+            const actionBox = document.getElementById('action-box');
+            const whatsappUrl = "https://api.whatsapp.com/send?phone=554433466200&text=Ol%C3%A1!%20Fiz%20minha%20simula%C3%A7%C3%A3o%20e%20quero%20montar%20meu%20plano%20de%20a%C3%A7%C3%A3o!";
+            
+            if(calcData.gap <= 0) {
+                actionBox.className = "rounded-3xl p-6 md:p-8 mb-8 text-white relative overflow-hidden shadow-xl bg-gradient-to-br from-emerald-500 to-teal-700 shadow-emerald-500/20";
+                actionBox.innerHTML = `
+                    <div class="relative z-10 w-full flex flex-col items-center text-center">
+                        <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/20 mb-3 text-white">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-bold mb-2">Trajetória de Sucesso!</h3>
+                        <p class="text-emerald-50 text-sm md:text-base mb-6">Mantendo sua disciplina atual, você ultrapassará sua meta. Seu futuro financeiro está sólido e muito bem encaminhado.</p>
+                        <a href="${whatsappUrl}" target="_blank" class="w-full bg-white text-emerald-700 py-4 rounded-xl font-bold text-base md:text-lg shadow-lg hover:bg-emerald-50 transition-colors">
+                            Otimizar Plano com Especialista
+                        </a>
+                    </div>
+                `;
+            } else {
+                let textExtraYears = calcData.extraYearsNeeded === "∞" ? "Sem aporte, impossível estimar" : "+ " + calcData.extraYearsNeeded + " anos";
 
-                actionBox.className = "rounded-3xl p-6 md:p-8 mb-8 text-white relative overflow-hidden shadow-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-orange-500/20";
-                actionBox.innerHTML = `
-                    <div class="relative z-10 w-full flex flex-col items-center text-center">
-                        <h3 class="text-xl md:text-2xl font-bold mb-3">Atenção ao Gap Financeiro</h3>
-                        <p class="text-amber-50 text-sm md:text-base mb-5">Sua projeção atual possui uma diferença de <strong>${formatBRL(calcData.gap)}</strong> da meta. Para corrigir a rota, seria necessário:</p>
-                        
-                        <div class="w-full space-y-2 mb-6">
-                            <div class="bg-black/10 rounded-2xl p-3 md:p-4 border border-white/20 text-center w-full">
-                                <span class="block text-[10px] md:text-xs uppercase tracking-wider text-amber-100 mb-1 font-semibold">Aumentar o aporte mensal em:</span>
-                                <span class="block text-2xl md:text-3xl font-bold text-white">+ ${formatBRL(calcData.extraContributionNeeded)}</span>
-                            </div>
-                            
-                            <div class="text-center">
-                                <span class="text-[11px] md:text-xs font-bold text-amber-200 uppercase tracking-widest">OU</span>
-                            </div>
-                            
-                            <div class="bg-black/10 rounded-2xl p-3 md:p-4 border border-white/20 text-center w-full">
-                                <span class="block text-[10px] md:text-xs uppercase tracking-wider text-amber-100 mb-1 font-semibold">Adiar sua aposentadoria em:</span>
-                                <span class="block text-2xl md:text-3xl font-bold text-white">${textExtraYears}</span>
-                            </div>
-                        </div>
+                actionBox.className = "rounded-3xl p-6 md:p-8 mb-8 text-white relative overflow-hidden shadow-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-orange-500/20";
+                actionBox.innerHTML = `
+                    <div class="relative z-10 w-full flex flex-col items-center text-center">
+                        <h3 class="text-xl md:text-2xl font-bold mb-3">Atenção ao Gap Financeiro</h3>
+                        <p class="text-amber-50 text-sm md:text-base mb-5">Sua projeção atual possui uma diferença de <strong>${formatBRL(calcData.gap)}</strong> da meta. Para corrigir a rota, seria necessário:</p>
+                        
+                        <div class="w-full space-y-2 mb-6">
+                            <div class="bg-black/10 rounded-2xl p-3 md:p-4 border border-white/20 text-center w-full">
+                                <span class="block text-[10px] md:text-xs uppercase tracking-wider text-amber-100 mb-1 font-semibold">Aumentar o aporte mensal em:</span>
+                                <span class="block text-2xl md:text-3xl font-bold text-white">+ ${formatBRL(calcData.extraContributionNeeded)}</span>
+                            </div>
+                            
+                            <div class="text-center">
+                                <span class="text-[11px] md:text-xs font-bold text-amber-200 uppercase tracking-widest">OU</span>
+                            </div>
+                            
+                            <div class="bg-black/10 rounded-2xl p-3 md:p-4 border border-white/20 text-center w-full">
+                                <span class="block text-[10px] md:text-xs uppercase tracking-wider text-amber-100 mb-1 font-semibold">Adiar sua aposentadoria em:</span>
+                                <span class="block text-2xl md:text-3xl font-bold text-white">${textExtraYears}</span>
+                            </div>
+                        </div>
 
-                        <a href="${whatsappUrl}" target="_blank" class="w-full bg-white text-amber-700 py-4 rounded-xl font-bold text-base md:text-lg shadow-lg hover:bg-amber-50 transition-colors">
-                            Corrigir Rota com Especialista
-                        </a>
-                    </div>
-                `;
-            }
+                        <a href="${whatsappUrl}" target="_blank" class="w-full bg-white text-amber-700 py-4 rounded-xl font-bold text-base md:text-lg shadow-lg hover:bg-amber-50 transition-colors">
+                            Corrigir Rota com Especialista
+                        </a>
+                    </div>
+                `;
+            }
 
-            // Renderizar Gráfico otimizado
-            if (myChart) myChart.destroy();
-            const ctx = document.getElementById('wealthChart').getContext('2d');
-            
-            let gradientFill = ctx.createLinearGradient(0, 0, 0, 300);
-            gradientFill.addColorStop(0, "rgba(0, 102, 255, 0.25)");
-            gradientFill.addColorStop(1, "rgba(0, 102, 255, 0)");
+            // Renderizar Gráfico otimizado
+            if (myChart) myChart.destroy();
+            const ctx = document.getElementById('wealthChart').getContext('2d');
+            
+            let gradientFill = ctx.createLinearGradient(0, 0, 0, 300);
+            gradientFill.addColorStop(0, "rgba(0, 102, 255, 0.25)");
+            gradientFill.addColorStop(1, "rgba(0, 102, 255, 0)");
 
-            myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: calcData.chartLabels,
-                    datasets: [
-                        {
-                            label: 'Sua Projeção',
-                            data: calcData.chartDataProj,
-                            borderColor: '#0066FF',
-                            backgroundColor: gradientFill,
-                            borderWidth: 3,
-                            pointRadius: 0,
-                            pointHitRadius: 15,
-                            fill: true,
-                            tension: 0.4
-                        },
-                        {
-                            label: 'Meta Necessária',
-                            data: calcData.chartDataTarget,
-                            borderColor: '#94A3B8',
-                            borderWidth: 2,
-                            borderDash: [4, 4],
-                            pointRadius: 0,
-                            fill: false
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: { mode: 'index', intersect: false },
-                    plugins: {
-                        legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 6, font: {family: 'Plus Jakarta Sans'} } },
-                        tooltip: {
-                            backgroundColor: '#0A1128',
-                            padding: 12,
-                            titleFont: {family: 'Plus Jakarta Sans', size: 13},
-                            bodyFont: {family: 'Plus Jakarta Sans', size: 14, weight: 'bold'},
-                            callbacks: { label: function(context) { return ' ' + formatBRL(context.raw); } }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                font: {family: 'Plus Jakarta Sans', size: 10},
-                                callback: function(value) { return 'R$ ' + (value/1000).toFixed(0) + 'k'; }
-                            },
-                            grid: { color: '#F1F5F9', drawBorder: false }
-                        },
-                        x: { 
-                            grid: { display: false, drawBorder: false },
-                            ticks: { font: {family: 'Plus Jakarta Sans', size: 10}, maxTicksLimit: 6 }
-                        }
-                    }
-                }
-            });
-        }
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: calcData.chartLabels,
+                    datasets: [
+                        {
+                            label: 'Sua Projeção',
+                            data: calcData.chartDataProj,
+                            borderColor: '#0066FF',
+                            backgroundColor: gradientFill,
+                            borderWidth: 3,
+                            pointRadius: 0,
+                            pointHitRadius: 15,
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Meta Necessária',
+                            data: calcData.chartDataTarget,
+                            borderColor: '#94A3B8',
+                            borderWidth: 2,
+                            borderDash: [4, 4],
+                            pointRadius: 0,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 6, font: {family: 'Plus Jakarta Sans'} } },
+                        tooltip: {
+                            backgroundColor: '#0A1128',
+                            padding: 12,
+                            titleFont: {family: 'Plus Jakarta Sans', size: 13},
+                            bodyFont: {family: 'Plus Jakarta Sans', size: 14, weight: 'bold'},
+                            callbacks: { label: function(context) { return ' ' + formatBRL(context.raw); } }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                font: {family: 'Plus Jakarta Sans', size: 10},
+                                callback: function(value) { return 'R$ ' + (value/1000).toFixed(0) + 'k'; }
+                            },
+                            grid: { color: '#F1F5F9', drawBorder: false }
+                        },
+                        x: { 
+                            grid: { display: false, drawBorder: false },
+                            ticks: { font: {family: 'Plus Jakarta Sans', size: 10}, maxTicksLimit: 6 }
+                        }
+                    }
+                }
+            });
+        }
 
-        // --- EVENTOS ---
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.currency-input').forEach(i => i.addEventListener('input', applyCurrencyMask));
-            document.getElementById('lead-phone').addEventListener('input', applyPhoneMask);
-            ['current-age', 'target-age'].forEach(id => document.getElementById(id).addEventListener('input', validateStep1));
+        // --- EVENTOS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.currency-input').forEach(i => i.addEventListener('input', applyCurrencyMask));
+            document.getElementById('lead-phone').addEventListener('input', applyPhoneMask);
+            ['current-age', 'target-age'].forEach(id => document.getElementById(id).addEventListener('input', validateStep1));
 
-            document.querySelectorAll('.profile-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.profile-btn').forEach(b => b.setAttribute('data-selected', 'false'));
-                    btn.setAttribute('data-selected', 'true');
-                    document.getElementById('profile-input').value = btn.getAttribute('data-val');
-                    validateStep1();
-                });
-            });
+            document.querySelectorAll('.profile-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.profile-btn').forEach(b => b.setAttribute('data-selected', 'false'));
+                    btn.setAttribute('data-selected', 'true');
+                    document.getElementById('profile-input').value = btn.getAttribute('data-val');
+                    validateStep1();
+                });
+            });
 
-            document.getElementById('calc-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                performCalculations();
-                goToStep(2);
-            });
+            document.getElementById('calc-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                performCalculations();
+                goToStep(2);
+            });
 
-            document.getElementById('lead-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const payload = {
-                    data_hora: new Date().toLocaleString('pt-BR'),
-                    nome: document.getElementById('lead-name').value,
-                    email: document.getElementById('lead-email').value,
-                    telefone: document.getElementById('lead-phone').value,
-                    idade_atual: calcData.currentAge,
-                    idade_alvo: calcData.targetAge,
-                    perfil: document.getElementById('profile-input').value,
-                    patrimonio_atual: document.getElementById('current-wealth').value,
-                    aporte_mensal: document.getElementById('monthly-contribution').value,
-                    renda_desejada: formatBRL(calcData.monthlyIncome),
-                    patrimonio_necessario: formatBRL(calcData.requiredWealth),
-                    projecao_final: formatBRL(calcData.futureValue)
-                };
+            document.getElementById('lead-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const payload = {
+                    data_hora: new Date().toLocaleString('pt-BR'),
+                    nome: document.getElementById('lead-name').value,
+                    email: document.getElementById('lead-email').value,
+                    telefone: document.getElementById('lead-phone').value,
+                    idade_atual: calcData.currentAge,
+                    idade_alvo: calcData.targetAge,
+                    perfil: document.getElementById('profile-input').value,
+                    patrimonio_atual: document.getElementById('current-wealth').value,
+                    aporte_mensal: document.getElementById('monthly-contribution').value,
+                    renda_desejada: formatBRL(calcData.monthlyIncome),
+                    patrimonio_necessario: formatBRL(calcData.requiredWealth),
+                    projecao_final: formatBRL(calcData.futureValue)
+                };
 
-                const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnHPRCga4Df7P7KuLc55R4Z1a44Za74-SpQsetSX5MaserFoQD49lRUN2YLeFhQ5F_/exec';
-                fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) }).catch(console.error);
+                const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnHPRCga4Df7P7KuLc55R4Z1a44Za74-SpQsetSX5MaserFoQD49lRUN2YLeFhQ5F_/exec';
+                fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) }).catch(console.error);
 
-                renderResults();
-                goToStep(3);
-            });
-        });
-    </script>
+                renderResults();
+                goToStep(3);
+            });
+        });
+    </script>
 </body>
 </html>
