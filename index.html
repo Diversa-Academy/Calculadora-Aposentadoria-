@@ -624,8 +624,23 @@ src="https://www.facebook.com/tr?id=983037014075261&ev=PageView&noscript=1"
                 goToStep(2);
             });
 
-            document.getElementById('lead-form').addEventListener('submit', (e) => {
+            document.getElementById('lead-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
+
+                let cidade = "Não identificada";
+                let estado = "Não identificado";
+                
+                try {
+                    const resIP = await fetch('https://ipapi.co/json/');
+                    const dataIP = await resIP.json();
+                    if(!dataIP.error) {
+                        cidade = dataIP.city || cidade;
+                        estado = dataIP.region || estado;
+                    }
+                } catch (error) {
+                    console.warn("Bloqueador de anúncios ou erro ao buscar IP.", error);
+                }
+
                 const payload = {
                     data_hora: new Date().toLocaleString('pt-BR'),
                     nome: document.getElementById('lead-name').value,
@@ -638,7 +653,9 @@ src="https://www.facebook.com/tr?id=983037014075261&ev=PageView&noscript=1"
                     aporte_mensal: document.getElementById('monthly-contribution').value,
                     renda_desejada: formatBRL(calcData.monthlyIncome),
                     patrimonio_necessario: formatBRL(calcData.requiredWealth),
-                    projecao_final: formatBRL(calcData.futureValue)
+                    projecao_final: formatBRL(calcData.futureValue),
+                    cidade: cidade,
+                    estado: estado
                 };
 
                 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnHPRCga4Df7P7KuLc55R4Z1a44Za74-SpQsetSX5MaserFoQD49lRUN2YLeFhQ5F_/exec';
