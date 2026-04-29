@@ -631,9 +631,10 @@ src="https://www.facebook.com/tr?id=983037014075261&ev=PageView&noscript=1"
                 let estado = "Não identificado";
                 
                 try {
-                    const resIP = await fetch('https://ipapi.co/json/');
+                    const resIP = await fetch('https://ipwho.is/');
                     const dataIP = await resIP.json();
-                    if(!dataIP.error) {
+                    
+                    if(dataIP.success) {
                         cidade = dataIP.city || cidade;
                         estado = dataIP.region || estado;
                     }
